@@ -1,5 +1,38 @@
-function App() { // Essa função vai ser global (para quem importar) no momento da exportação e não aceita arrow function nem o primeira letra minúscula!
+import {useState} from 'react';
+import Tasks from './components/Tasks.jsx'
+import AddTask from './components/AddTask.jsx'
 
+function App() { // Essa função vai ser global (para quem importar) no momento da exportação e não aceita arrow function nem o primeira letra minúscula!
+  const [tasks, setTasks] = useState([{
+      id: 1,
+      title: "Estudar Inglês",
+      description: "Estudar inglês para ficar fluente e fugir do Brasil",
+      isCompleted: false,
+    },
+    {
+      id: 2,
+      title: "Estudar Programação",
+      description: "Estudar programação para ficar ser um programador um dia",
+      isCompleted: false,
+    },
+    {
+      id: 3,
+      title: "Estudar Matemática",
+      description: "Saber os números",
+      isCompleted: false,
+    }
+  ])
+
+  function onTaskClick(taskId){
+    const newTasks = tasks.map(task => {
+      if (task.id == taskId){
+        return {...task, isCompleted: !task.isCompleted}
+      }
+    
+      return task
+    })
+    setTasks(newTasks)
+  }
 
   return ( 
     // Aqui é onde fica o HTML, e ele aceita apenas 1 elemento, isso explica o uso da div.
@@ -8,14 +41,10 @@ function App() { // Essa função vai ser global (para quem importar) no momento
       <div className='w-[500px]'>
         <h1 className='text-3xl text-slate-100 font-bold text-center'>Gerenciador de Tarefas</h1>
         <AddTask/>
-        <Tasks/> 
+        <Tasks tasks={tasks} onTaskClick={onTaskClick}/> {/*esse valor (tasks) vai ser enviado para o props*/}
       </div>
     </div>
   )
 }
 
 export default App // Torna a função App global, no caso era será importada em main.jsx
-
-import {useState} from 'react';
-import Tasks from './components/Tasks.jsx'
-import AddTask from './components/AddTask.jsx'
