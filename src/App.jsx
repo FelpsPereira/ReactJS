@@ -18,7 +18,7 @@ function App() { // Essa função vai ser global (para quem importar) no momento
     {
       id: 3,
       title: "Estudar Matemática",
-      description: "Saber os números",
+      description: "Saber os número",
       isCompleted: false,
     }
   ])
@@ -26,7 +26,7 @@ function App() { // Essa função vai ser global (para quem importar) no momento
   function onTaskClick(taskId){
     const newTasks = tasks.map(task => {
       if (task.id == taskId){
-        return {...task, isCompleted: !task.isCompleted}
+        return {...task, isCompleted: !task.isCompleted} // "...task", apenas retorna todo o objeto, porém modificando apenas o isCompleted.
       }
     
       return task
@@ -34,14 +34,40 @@ function App() { // Essa função vai ser global (para quem importar) no momento
     setTasks(newTasks)
   }
 
+  function onTaskClickDelete(taskId){
+    setTasks(tasks.filter(task => task.id !== taskId))
+  }
+
+  function onAddTask (title,description) {
+    const newTask = {
+      id: tasks.length + 1,
+      title: title,
+      description: description,
+      isCompleted: false
+    }
+
+    setTasks(...tasks, newTask)
+  }
+
   return ( 
     // Aqui é onde fica o HTML, e ele aceita apenas 1 elemento, isso explica o uso da div.
 
     <div className='w-screen h-screen bg-slate-500 flex justify-center p-6'>
-      <div className='w-[500px]'>
+      <div className='w-[500px] space-y-4'>
         <h1 className='text-3xl text-slate-100 font-bold text-center'>Gerenciador de Tarefas</h1>
-        <AddTask/>
-        <Tasks tasks={tasks} onTaskClick={onTaskClick}/> {/*esse valor (tasks) vai ser enviado para o props*/}
+        <AddTask
+        
+        onAddTask={onAddTask}
+        />
+
+        <Tasks
+
+        tasks={tasks}
+        onTaskClick={onTaskClick} 
+        onTaskClickDelete={onTaskClickDelete}
+
+        />{/*esse valor (tasks) vai ser enviado para o props, tudo que etiver ai, vai ir para o props*/}
+
       </div>
     </div>
   )
