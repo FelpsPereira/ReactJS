@@ -1,9 +1,8 @@
 import {useState} from "react"
-
 function AddTask({onAddTask}) {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-
+    
     return (
         <div className="space-y-4 p-6 bg-slate-200 shadow rounded-md flex flex-col">
             <input 
@@ -20,11 +19,17 @@ function AddTask({onAddTask}) {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             />
-
+            
 
             <button 
             className="bg-slate-500 text-white px-4 py-2 rounded-md font-medium" 
-            onClick={() => onAddTask(title,description)}>
+            onClick={() => {
+                //verificar se há algo nos inputs, o trim sever para tirar os espaços desnecessários
+                if (!title.trim() || !description.trim()) alert("Preencha todos os campos!") 
+                else onAddTask(title,description)
+                setTitle("")
+                setDescription("")
+            }}>
                 Adicionar
             </button>
         </div>

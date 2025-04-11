@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Tasks from './components/Tasks.jsx'
 import AddTask from './components/AddTask.jsx'
+import {v4} from 'uuid'
 
 function App() { // Essa função vai ser global (para quem importar) no momento da exportação e não aceita arrow function nem o primeira letra minúscula!
   const [tasks, setTasks] = useState([{
@@ -40,13 +41,13 @@ function App() { // Essa função vai ser global (para quem importar) no momento
 
   function onAddTask (title,description) {
     const newTask = {
-      id: tasks.length + 1,
+      id: v4(),
       title: title,
       description: description,
       isCompleted: false
     }
-
-    setTasks(...tasks, newTask)
+    
+    setTasks([...tasks, newTask])
   }
 
   return ( 
